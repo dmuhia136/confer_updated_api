@@ -1,11 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import {
-  IsString,
-  IsEmpty,
-  IsNotEmpty,
-  IsNumber
-  
-} from 'class-validator';
+import { IsString, IsEmpty, IsNotEmpty, IsNumber } from 'class-validator';
 import { isEmpty } from 'rxjs';
 
 export class AuthDto {
@@ -13,7 +7,7 @@ export class AuthDto {
   @IsNotEmpty({ message: 'Email is required' })
   @ApiProperty({
     description: 'User email',
-    example: "johndoe@gmail.com",
+    example: 'johndoe@gmail.com',
   })
   email: string;
 }
@@ -43,7 +37,7 @@ export class UserDto {
     example: 'Minnesota',
   })
   location: string;
-  @ApiProperty({ 
+  @ApiProperty({
     description: 'Users age range',
     example: 20,
   })
@@ -63,7 +57,7 @@ export class UserDto {
   })
   email: string;
   // @IsString()
-  // followers: string; 
+  // followers: string;
   // @IsString()
   // following: string;
   @IsString()

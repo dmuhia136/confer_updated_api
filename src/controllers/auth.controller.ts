@@ -1,4 +1,4 @@
-import { Get, Post, Controller, Body } from '@nestjs/common';
+import { Get, Post, Controller, Body, Req } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -6,6 +6,7 @@ import {
 } from '@nestjs/swagger';
 import { AuthDto, UserDto } from 'src/Dto';
 import { AuthService } from '../services/auth.service';
+import { Request } from 'express';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -33,10 +34,9 @@ export class AuthController {
     description:
       'User was not found or there was an error that occurred creating the user',
   })
-  async authenticate(@Body() auth: AuthDto) {
-    return await this.authService.authenticate(auth);
-  } 
-
+  async authenticate(@Body() auth: AuthDto, @Req() req: Request) {
+    return await this.authService.authenticate(auth, req);
+  }
 
   //login user
   @Post('/signin')
@@ -45,12 +45,12 @@ export class AuthController {
   }
 
   @Get('/')
-  async getAllUsers():Promise<any> {
+  async getAllUsers(): Promise<any> {
     return await this.authService.getAllUsers();
   }
 
   @Get('/one')
-  getOneUser(){
-    return "user";
+  getOneUser() {
+    return 'user';
   }
 }
