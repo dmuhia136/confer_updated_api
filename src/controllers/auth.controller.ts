@@ -40,17 +40,14 @@ export class AuthController {
 
   //login user
   @Post('/signin')
-  loginUser(): any {
-    return { name: 'Dennis', email: 'dmuhia@gmail.com' };
-  }
-
-  @Get('/')
-  async getAllUsers(): Promise<any> {
-    return await this.authService.getAllUsers();
-  }
-
-  @Get('/one')
-  getOneUser() {
-    return 'user';
+  @ApiCreatedResponse({
+    description: 'Signin users',
+  })
+  @ApiBadRequestResponse({
+    description:
+      'User was not found or there was an error that occurred fetching the user',
+  })
+  async loginUser(@Body() auth: AuthDto): Promise<{}> {
+    return await this.authService.signInUser(auth);
   }
 }

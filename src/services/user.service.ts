@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Param, Get } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { UserDto } from 'src/Dto';
@@ -9,7 +9,11 @@ export class UserService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
   async fetchAllUsers(): Promise<UserDto[]> {
     const result = await this.userModel.find().exec();
-    console.log(result);
     return result;
+  }
+
+  async findOne(id: string) {
+    const user = await this.userModel.findById(id).exec();
+    return user;
   }
 }
