@@ -10,5 +10,6 @@ import { User, UserSchema } from 'src/schema/user.schema';
   ],
   providers: [AuthService],
   controllers: [AuthController],
+  exports: [AuthService],
 })
 export class AuthModule {}

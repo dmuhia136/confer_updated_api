@@ -105,3 +105,43 @@ export class UserDto {
   @IsString()
   bio: string;
 }
+
+export class RoomDto {
+  ownerId: string;
+  participants: string;
+  raisedHands: string;
+  invitedIds: string;
+  hostIds: string;
+  speakerIds: string;
+  invitedHostIds: string;
+  allowChat: boolean;
+  useConferId: boolean;
+  conferId: string;
+  hideParticipants: boolean;
+  meetingFrom: string;
+  encryption: boolean;
+  teaserFee: number;
+  sessionRate: number;
+  cancelFee: number;
+  passCode: string;
+  noShowFee: boolean;
+  noShowPenalty: boolean;
+  meetingId: string;
+  meetingTo: string;
+  autoPayout: boolean;
+  participantSpeak: boolean;
+  requireMeetingPassCode: boolean;
+  timeZone: string;
+  meetingType: string;
+  subscriptionType: string;
+  raiseHands: string;
+  rating: number;
+  ratingMessage: string;
+  teaser: boolean;
+  teaserDuration: number;
+  noShowGracePeriod: string;
+  noShowFeeAmount: number;
+  cancellationPenalty: boolean;
+  ended: boolean;
+  endedTime: number;
+}

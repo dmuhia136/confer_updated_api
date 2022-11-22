@@ -13,6 +13,7 @@ import { AuthModule, UserModule } from './modules';
     AuthModule,
     MongooseModule.forRoot('mongodb://localhost:27017/confer'),
     UserModule,
+    
   ],
 })
 export class AppModule implements NestModule {
