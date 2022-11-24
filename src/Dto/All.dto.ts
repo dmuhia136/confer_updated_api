@@ -3,9 +3,10 @@ import {
   IsString,
   IsEmpty,
   IsNotEmpty,
-  IsNumber
-  
+  IsNumber,
+  IsBoolean,
 } from 'class-validator';
+import { trusted } from 'mongoose';
 import { isEmpty } from 'rxjs';
 
 export class AuthDto {
@@ -13,7 +14,7 @@ export class AuthDto {
   @IsNotEmpty({ message: 'Email is required' })
   @ApiProperty({
     description: 'User email',
-    example: "johndoe@gmail.com",
+    example: 'johndoe@gmail.com',
   })
   email: string;
 }
@@ -43,7 +44,7 @@ export class UserDto {
     example: 'Minnesota',
   })
   location: string;
-  @ApiProperty({ 
+  @ApiProperty({
     description: 'Users age range',
     example: 20,
   })
@@ -63,7 +64,7 @@ export class UserDto {
   })
   email: string;
   // @IsString()
-  // followers: string; 
+  // followers: string;
   // @IsString()
   // following: string;
   @IsString()
@@ -110,4 +111,229 @@ export class UserDto {
   })
   @IsString()
   bio: string;
+}
+
+export class RoomDto {
+  @IsString()
+  @ApiProperty({
+    description: 'Owner id',
+    example: '636a5996d7483b54420d139e',
+  })
+  ownerId: string;
+  @IsString()
+  @ApiProperty({
+    description: 'Participant id',
+    example: '636a5996d7483b54420d139e',
+  })
+  participants: string;
+  @IsString()
+  @ApiProperty({
+    description: 'raised hands id',
+    example: '636a5996d7483b54420d139e',
+  })
+  raisedHands: string;
+  @IsString()
+  @ApiProperty({
+    description: 'Invited id',
+    example: '636a5996d7483b54420d139e',
+  })
+  invitedIds: string;
+  @IsString()
+  @ApiProperty({
+    description: 'Host id',
+    example: '636a5996d7483b54420d139e',
+  })
+  hostIds: string;
+  @IsString()
+  @ApiProperty({
+    description: 'Speaker id',
+    example: '636a5996d7483b54420d139e',
+  })
+  speakerIds: string;
+  @IsString()
+  @ApiProperty({
+    description: 'Invited hosts id',
+    example: '636a5996d7483b54420d139e',
+  })
+  invitedHostIds: string;
+  @IsBoolean()
+  @ApiProperty({
+    description: 'Allow chat id',
+    example: false,
+  })
+  allowChat: boolean;
+  @IsBoolean()
+  @ApiProperty({
+    description: 'user Confer id',
+    example: true,
+  })
+  useConferId: boolean;
+  @IsString()
+  @ApiProperty({
+    description: 'Confer id',
+    example: '123435675654',
+  })
+  conferId: string;
+  @IsBoolean()
+  @ApiProperty({
+    description: 'hideParticipants id',
+    example: true,
+  })
+  hideParticipants: boolean;
+  @IsString()
+  @ApiProperty({
+    description: 'meetingFrom',
+    example: '4 pm',
+  })
+  meetingFrom: string;
+  @IsBoolean()
+  @ApiProperty({
+    description: 'encryption',
+    example: false,
+  })
+  encryption: boolean;
+  @IsNumber()
+  @ApiProperty({
+    description: 'Teaser fee',
+    example: 30,
+  })
+  teaserFee: number;
+  @IsBoolean()
+  @ApiProperty({
+    description: 'encryption',
+    example: false,
+  })
+  sessionRate: number;
+  @IsNumber()
+  @ApiProperty({
+    description: 'cancelFee',
+    example: 30,
+  })
+  cancelFee: number;
+  @IsString()
+  @ApiProperty({
+    description: 'Passcode',
+    example: '1234',
+  })
+  passCode: string;
+  @IsBoolean()
+  @ApiProperty({
+    description: 'noShowFee',
+    example: false,
+  })
+  noShowFee: boolean;
+  @IsBoolean()
+  @ApiProperty({
+    description: 'noShowPenalty',
+    example: false,
+  })
+  noShowPenalty: boolean;
+  @IsString()
+  @ApiProperty({
+    description: 'meetingId',
+    example: '1234651778929',
+  })
+  meetingId: string;
+  @IsString()
+  @ApiProperty({
+    description: 'meetingTo',
+    example: '7 pm',
+  })
+  meetingTo: string;
+  @IsBoolean()
+  @ApiProperty({
+    description: 'Auto payout',
+    example: false,
+  })
+  autoPayout: boolean;
+  @IsBoolean()
+  @ApiProperty({
+    description: 'meetingTo',
+    example: false,
+  })
+  participantSpeak: boolean;
+  @IsBoolean()
+  @ApiProperty({
+    description: 'requireMeetingPassCode',
+    example: true,
+  })
+  requireMeetingPassCode: boolean;
+  @IsString()
+  @ApiProperty({
+    description: 'time Zone',
+    example: 'Est',
+  })
+  timeZone: string;
+  @IsString()
+  @ApiProperty({
+    description: 'Meeting type',
+    example: 'Open',
+  })
+  meetingType: string;
+  @IsString()
+  @ApiProperty({
+    description: 'Subscription type',
+    example: 'Month',
+  })
+  subscriptionType: string;
+  @IsString()
+  @ApiProperty({
+    description: 'Raised hands',
+    example: '2134356',
+  })
+  raiseHands: string;
+  @IsNumber()
+  @ApiProperty({
+    description: 'Rating',
+    example: 2,
+  })
+  rating: number;
+  @IsString()
+  @ApiProperty({
+    description: 'Rating message',
+    example: 'The meeting was informative',
+  })
+  ratingMessage: string;
+  @IsBoolean()
+  @ApiProperty({
+    description: 'Teaser',
+    example: false,
+  })
+  teaser: boolean;
+  @IsNumber()
+  @ApiProperty({
+    description: 'Teaser duration ',
+    example: 5,
+  })
+  teaserDuration: number;
+  @IsString()
+  @ApiProperty({
+    description: 'No show grace period',
+    example: '12',
+  })
+  noShowGracePeriod: string;
+  @IsNumber()
+  @ApiProperty({
+    description: 'No show fee amount',
+    example: 123,
+  })
+  noShowFeeAmount: number;
+  @IsBoolean()
+  @ApiProperty({
+    description: 'Cancellation fee',
+    example: false,
+  })
+  cancellationPenalty: boolean;
+  @IsBoolean()
+  @ApiProperty({
+    description: 'Room ended',
+    example: true,
+  })
+  ended: boolean;
+  @IsNumber()
+  @ApiProperty({
+    description: 'Ended time',
+    example: 8,
+  })
+  endedTime: number;
 }

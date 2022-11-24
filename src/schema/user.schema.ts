@@ -18,7 +18,7 @@ export class User {
   @Prop([String])
   location: string;
 
-  @Prop()
+  @Prop([Number])
   ageRange: number;
 
   @Prop()

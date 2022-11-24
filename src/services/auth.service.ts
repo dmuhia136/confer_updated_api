@@ -3,8 +3,17 @@ import { AuthDto, UserDto } from 'src/Dto';
 import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import * as admin from 'firebase-admin';
-import * as serviceAccount from '../../service_account.json';
+import * as serviceAccount from '../middlewares/service_account.json';
 import { User, UserDocument } from 'src/schema/user.schema';
+import * as firebaseServices from '../../service_account.json';
+import { Request } from 'express';
+import { auth } from 'firebase-admin';
+import { firebase_params } from 'src/middlewares/preauth.middleware';
+
+admin.initializeApp({
+  credential: admin.credential.cert(firebase_params),
+});
+admin.firestore().settings({ ignoreUndefinedProperties: true });
 
 @Injectable()
 export class AuthService {
@@ -14,21 +23,14 @@ export class AuthService {
     try {
       const createdUser = new this.userModel(user);
       return await createdUser.save();
-    } catch (error) { 
+    } catch (error) {
       return error.message;
     }
   }
- 
 
-  async authenticate(user: AuthDto) {
-    admin.initializeApp({
-      credential: admin.credential.cert(`${serviceAccount}`),
-    });
-    admin.firestore().settings({ ignoreUndefinedProperties: true });
-
+  async authenticate(user: AuthDto, req: Request) {
     try {
-      var result = await this.userModel.find({ email: user.email }).exec();
-
+      const result = await this.userModel.find({ email: user.email }).exec();
       if (result.length == 0) {
         return { status: false, message: 'You don`t have an account' };
       } else {
@@ -38,10 +40,25 @@ export class AuthService {
         // token: generateToken(result[0]),
         return { status: true, firebaseToken: customToken, body: result[0] };
       }
-    } catch (error) {}
+    } catch (error) {
+      return error;
+    }
   }
 
-  async getAllUsers():Promise<any>{
-    return await this.userModel.find().exec();
+  async signInUser(auth: AuthDto): Promise<{}> {
+    try {
+      const user = await this.userModel.findOne({ email: auth.email });
+      if (!user) {
+        return { status: false, error: 'No user with that email found' };
+      } else {
+        const customToken = await admin
+          .auth()
+          .createCustomToken(user._id.toString());
+        // firebaseToken: customToken, token: generateToken(user),
+        return { status: true, firebaseToken: customToken, body: user };
+      }
+    } catch (error) {
+      return { status: false, message: error.message };
+    }
   }
 }
