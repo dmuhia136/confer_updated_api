@@ -1,4 +1,4 @@
-import { Get, Post, Controller, Body, Req } from '@nestjs/common';
+import { Get, Post, Controller, Body, Req, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -7,6 +7,8 @@ import {
 import { AuthDto, UserDto } from 'src/Dto';
 import { AuthService } from '../services/auth.service';
 import { Request } from 'express';
+import { AuthGuard } from '@nestjs/passport';
+import { LocalAuthGuard } from 'src/strategy/local-auth.guard';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -39,6 +41,7 @@ export class AuthController {
   }
 
   //login user
+  @UseGuards(LocalAuthGuard)
   @Post('/signin')
   @ApiCreatedResponse({
     description: 'Signin users',
@@ -47,7 +50,7 @@ export class AuthController {
     description:
       'User was not found or there was an error that occurred fetching the user',
   })
-  async loginUser(@Body() auth: AuthDto): Promise<{}> {
+  async loginUser(@Body() auth: AuthDto): Promise<any> {
     return await this.authService.signInUser(auth);
   }
 }

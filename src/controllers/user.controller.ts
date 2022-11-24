@@ -1,5 +1,9 @@
-import { Get, Post, Controller, Body, Param, } from '@nestjs/common';
-import { ApiBadRequestResponse, ApiCreatedResponse, ApiTags } from '@nestjs/swagger';
+import { Get, Post, Controller, Body, Param } from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiTags,
+} from '@nestjs/swagger';
 import { UserDto } from 'src/Dto';
 import { UserService } from 'src/services/user.service';
 
@@ -28,7 +32,7 @@ export class UserController {
     description:
       'No users were found or there was a problem with your connection',
   })
-  async findOne(@Param('id') id: string):Promise<any>{
-    return await this.userService.findOne(id)
+  async findOne(@Param('id') id: string): Promise<any> {
+    return await this.userService.findOne(id);
   }
 }

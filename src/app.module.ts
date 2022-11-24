@@ -6,14 +6,14 @@ import {
 } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PreauthMiddleware } from './middlewares/preauth.middleware';
-import { AuthModule, UserModule } from './modules';
+import { AuthModule, RoomModule, UserModule } from './modules';
 
 @Module({
   imports: [
     AuthModule,
     MongooseModule.forRoot('mongodb://localhost:27017/confer'),
     UserModule,
-    
+    RoomModule,
   ],
 })
 export class AppModule implements NestModule {
