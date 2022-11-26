@@ -8,7 +8,6 @@ import { AuthDto, UserDto } from 'src/Dto';
 import { AuthService } from '../services/auth.service';
 import { Request } from 'express';
 import { AuthGuard } from '@nestjs/passport';
-import { LocalAuthGuard } from 'src/strategy/local-auth.guard';
 
 @ApiTags('Auth')
 @Controller('auth')
@@ -41,7 +40,6 @@ export class AuthController {
   }
 
   //login user
-  @UseGuards(LocalAuthGuard)
   @Post('/signin')
   @ApiCreatedResponse({
     description: 'Signin users',

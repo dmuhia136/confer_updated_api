@@ -1,13 +1,11 @@
 import { ApiProperty } from '@nestjs/swagger';
 import {
   IsString,
-  IsEmpty,
+ 
   IsNotEmpty,
   IsNumber,
   IsBoolean,
 } from 'class-validator';
-import { trusted } from 'mongoose';
-import { isEmpty } from 'rxjs';
 
 export class AuthDto {
   @IsString()
@@ -336,4 +334,68 @@ export class RoomDto {
     example: 8,
   })
   endedTime: number;
+}
+
+
+export class TransactionDto{
+  @IsNumber()
+  @ApiProperty({
+    description: 'Amount',
+    example: 1200,
+  })
+  amount: number;
+  @IsString()
+  @ApiProperty({
+    description: 'Credit card number',
+    example: '12343431232',
+  })
+  creditCard: string;
+  @IsString()
+  @ApiProperty({
+    description: 'Bank account number',
+    example: '1221213213',
+  })
+  bankAccount: string;
+  @IsString()
+  @ApiProperty({
+    description: 'Bank name',
+    example: 'Backlays',
+  })
+  bankName: string;
+  @IsString()
+  @ApiProperty({
+    description: 'Owner id',
+    example: '636a5996d7483b54420d139e',
+  })
+  owner: string;
+}
+
+export class WithdrawDto{
+  @IsNumber()
+  @ApiProperty({
+    description: 'Amount',
+    example: 120,
+  })
+  amount: number;
+  @IsString()
+  @ApiProperty({
+    description: 'Owner id',
+    example: '636a5996d7483b54420d139e',
+  })
+  owner: string;
+}
+
+export class RoomRatingDto{
+  @IsString()
+  @ApiProperty({
+    description: 'Room rating',
+    example: "4",
+  })
+  rating:string;
+  @IsString()
+  @ApiProperty({
+    description: 'Room rating message',
+    example: "The meeting was informative",
+  })
+  ratingMessage:string;
 }

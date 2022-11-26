@@ -1,10 +1,10 @@
-import { Body, Controller, Post, Get, Put, Param } from '@nestjs/common';
+import { Body, Controller, Post, Get, Put, Param, Patch } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { RoomDto } from 'src/Dto';
+import { RoomDto, RoomRatingDto } from 'src/Dto';
 import { RoomService } from 'src/services/room.service';
 
 @ApiTags('Rooms')
@@ -72,5 +72,27 @@ export class RoomController {
   })
   async createAgoraToken(@Param('channel') channel:string): Promise<any> {
     return await this.roomService.createRoomToken(channel);
+  }
+
+  @Get('user/:id')
+  @ApiCreatedResponse({
+    description: 'Create a room agora token ',
+  })
+  @ApiBadRequestResponse({
+    description: 'Agora access token was not created check your connection',
+  })
+  async getByUserId(@Param("id") id:string):Promise<any>{
+    return await this.roomService.byUserId(id)
+  }
+
+  @Patch("rating/:id")
+  @ApiCreatedResponse({
+    description: 'Create a room agora token ',
+  })
+  @ApiBadRequestResponse({
+    description: 'Agora access token was not created check your connection',
+  })
+  async roomRating(@Body() room:RoomRatingDto,@Param("id") id:string):Promise<any>{
+    return await this.roomService.roomRating(room,id);
   }
 }

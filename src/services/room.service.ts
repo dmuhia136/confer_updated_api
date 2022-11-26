@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { RoomDto } from 'src/Dto';
+import { RoomDto, RoomRatingDto } from 'src/Dto';
 import { Room, RoomDocument, RoomSchema } from 'src/schema/room.schema';
 import {
   RtcTokenBuilder,
@@ -69,6 +69,29 @@ export class RoomService {
       return { status: true, agoraToken: token };
     } catch (error) {
       return { status: false, message: error.message };
+    }
+  }
+
+  async byUserId(id:string):Promise<any>{
+    try {
+      const room =await this.roomModel.find({ownerId:id});
+      return {status:true,body:room}
+    } catch (error) {
+      return {status:false,message: error.message}
+    }
+  }
+
+  async roomRating(room: RoomRatingDto,id:String):Promise<any>{
+    try {
+      await this.roomModel.findByIdAndUpdate(id, {
+        $set: {
+            rating: room.rating,
+            ratingMessage: room.ratingMessage
+        }
+    }, { new: true, runValidators: true });
+    return {status:true, message:"Room rating was added"}
+    } catch (error) {
+      return {status:false,message: error.message}
     }
   }
 }

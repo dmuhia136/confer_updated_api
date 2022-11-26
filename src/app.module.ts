@@ -7,13 +7,17 @@ import {
 import { MongooseModule } from '@nestjs/mongoose';
 import { PreauthMiddleware } from './middlewares/preauth.middleware';
 import { AuthModule, RoomModule, UserModule } from './modules';
+import { TransactionModule } from './modules/transaction.module';
 
 @Module({
   imports: [
     AuthModule,
-    MongooseModule.forRoot('mongodb://localhost:27017/confer'),
+    MongooseModule.forRoot('mongodb://127.0.0.1:27017', {
+      dbName: 'confer',
+    }),
     UserModule,
     RoomModule,
+    TransactionModule
   ],
 })
 export class AppModule implements NestModule {

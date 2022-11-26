@@ -1,4 +1,4 @@
-import { Get, Post, Controller, Body, Param } from '@nestjs/common';
+import { Get, Post, Controller, Body, Param, UseGuards } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -6,12 +6,14 @@ import {
 } from '@nestjs/swagger';
 import { UserDto } from 'src/Dto';
 import { UserService } from 'src/services/user.service';
+import { JwtAuthGuard } from 'src/strategy/jwt-auth.guard';
 
 @ApiTags('User')
 @Controller('user')
 export class UserController {
   constructor(private userService: UserService) {}
 
+  // @UseGuards(JwtAuthGuard)
   @Get('/all')
   @ApiCreatedResponse({
     description: 'Get all users in the database',

@@ -6,7 +6,7 @@ export type RoomDocument = HydratedDocument<Room>;
 
 @Schema()
 export class Room {
-  @Prop([String])
+  @Prop({ type: { type: mongoose.Schema.Types.ObjectId, ref: 'User' } })
   ownerId: string;
   @Prop({ type: [{ type: mongoose.Schema.Types.ObjectId, ref: 'User' }] })
   participants: string;

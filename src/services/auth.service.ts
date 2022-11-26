@@ -9,6 +9,7 @@ import * as firebaseServices from '../../service_account.json';
 import { Request } from 'express';
 import { auth } from 'firebase-admin';
 import { firebase_params } from 'src/middlewares/preauth.middleware';
+import { JwtService } from '@nestjs/jwt';
 
 admin.initializeApp({
   credential: admin.credential.cert(firebase_params),
@@ -17,12 +18,16 @@ admin.firestore().settings({ ignoreUndefinedProperties: true });
 
 @Injectable()
 export class AuthService {
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>,private jwtService: JwtService) {}
 
   async createUser(user: UserDto): Promise<any> {
     try {
       const createdUser = new this.userModel(user);
-      return await createdUser.save();
+      const newUser=await createdUser.save();
+      const customToken = await admin
+      .auth()
+      .createCustomToken(newUser._id.toString());
+      return {status: true, firebaseToken: customToken,message: "User created", body: newUser}
     } catch (error) {
       return error.message;
     }
